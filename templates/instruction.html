@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CNLT</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet">
+  <link rel="shortcut icon" href="{{url_for('static',filename='image/fav.ico')}}">
+  <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{url_for('static',filename='js/jquery-3.5.1.min.js')}}"></script>
+  <script>
+    $.ajax({
+      url:'/count',
+      type:'get',
+      success:function (countNum){
+        document.getElementById("countdiv").innerHTML="当前用户数<span class='badge rounded-pill bg-success'>"+countNum+"</span>"
+      }
+    }
+    )
+  </script>
+  <script>
+    function clickbt(){
+      $("#loadingSpan").attr("class","spinner-border spinner-border-sm")
+      $("#button").attr("disabled",true)
+      var loginUrl=$("#login_url").val()
+      var mailAdress=$("#mail_adress").val()+"@qq.com"
+      var postdata={
+        "loginUrl":loginUrl,
+        "mailAdress":mailAdress,
+      }
+      $.ajax({
+        url:"/submit",
+        type:"post",
+        dataType :"json",
+        data:postdata,
+        success:function (notice) {
+          $("#loadingSpan").removeAttr("class")
+          $("#button").attr("disabled",false)
+          alert(notice)
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+  <div class="container p-4 my-4 border">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="col-4 offset-4 bg-primary rounded"><h1 class="text-white text-center">CNLT</h1>
+        </div>
+        <div class="text-end">
+          <small><span class="badge bg-danger">beta</span></small>
+        </div>
+        <div>
+          <h4 class="text-center text-secondary">Campus Network Login Tool</h4>
+        </div>
+        <div>
+          <p class="text-center text-secondary">一款自动化登录校园网的web应用</p>
+        </div>
+        <div id="countdiv" class="col-4 offset-4 text-center bg-secondary text-white rounded">null</div>
+      </div>
+    </div>
+    <hr>
+    <div class="alert alert-danger text-center">
+      <h4><strong>注意!</strong> 请用电脑进行以下全部操作：</h4>
+    </div>
+    <hr/>
+    <div class="row col-md-6 offset-md-3">
+      <h4><strong>前提准备</strong></h4>
+      <p class="text-muted">
+        首先，确保您的电脑已连入校园网(无论您是否登录了校园网)
+      </p>
+    </div>
+    <hr/>
+    <div class="row col-md-6 offset-md-3">
+      <h4><strong>开始折腾</strong></h4>
+      <a class="text-info text-center" href="http://172.16.253.3" target="1">点此进入</a>
+      <p class="text-muted">
+        1.点击上方链接进入校园网页面，输入账号密码，但<mark>不要点击登录</mark>
+      </p>
+      <img src="{{url_for('static',filename='image/instruction2_1.png')}}">
+      <hr/>
+      <p class="text-muted">
+        2.按下键盘上的<kbd>F12</kbd>键，如果没反应，按下<kbd>Fn</kbd>+<kbd>F12</kbd>键
+      </p>
+      <img src="{{url_for('static',filename='image/instruction2_2.png')}}">
+      <p class="text-muted">
+        当出现以上页面时点击<kbd>网络</kbd>菜单，确保左下方按钮处于红色运行状态（与图片一致），此时在左侧登录页面中点击登录，登录成功后继续下一步
+      </p>
+      <hr/>
+      <p class="text-muted">
+        3.如图，点击以<mark>?c=Portal</mark>开头的选项
+      </p>
+      <img src="{{url_for('static',filename='image/instruction2_3.png')}}">
+      <hr/>
+      <p class="text-muted">
+        4.复制图中红色线框出的部分（这里因为隐私原因打码），保存在记事本里，后面要用到，这里把它叫做<mark>登录链接</mark>，记录完后继续下一步
+      </p>
+      <img src="{{url_for('static',filename='image/instruction2_4.png')}}">
+    </div>
+    <hr/>
+    <div class="row col-md-6 offset-md-3">
+      <h4><strong>最终部署</strong></h4>
+      <div class="alert alert-success text-center">
+        <h4><strong>恭喜!</strong> 您的主要操作已完成，接下来进行填空就行：</h4>
+      </div>
+      <p class="text-muted">
+        还记得之前要求您记录的链接<mark>(登录链接)</mark>吗？请把它填入下表,同时填写好您用来接受通知的<mark>邮箱</mark>，以便提醒您脚本的运行情况：
+      </p>
+      <form class="was-validated" target="nm_iframe">
+        <div class="form-group">
+          <label for="login_url">登录链接:</label>
+          <input type="text" class="form-control" id="login_url" placeholder="登录链接" required>
+          <div class="valid-feedback">验证成功！</div>
+          <div class="invalid-feedback">请输入登录链接!</div>
+        </div>
+        <div class="form-group">
+          <label for="mail_adress">通知邮箱:</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="mail_adress" placeholder="通知邮箱" required>
+            <span class="input-group-text">@qq.com</span>
+            <div class="valid-feedback">验证成功！</div>
+            <div class="invalid-feedback">请输入邮箱对应qq号！</div>
+          </div>
+        </div>
+        <div class="col-4 offset-5">
+          <button id="button" class="btn btn-primary" onclick="clickbt()">
+            <span id="loadingSpan"></span>
+            提交
+          </button>
+        </div>
+      </form>
+    </div>
+    <hr>
+    <div class="row">
+      <div>
+        <h6 class="text-center text-secondary"><small>Only For AHU</small></h6>
+        <h6 class="text-center text-secondary">Copyright © 2021-2022 <font color="blue">Epoch</font>. All rights reserved.</h6>
+      </div>
+    </div>
+  </div>
+  <iframe id="id_iframe" name="nm_iframe" style="display:none"></ifram>
+</body>
+</html>

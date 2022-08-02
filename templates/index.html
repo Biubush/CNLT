@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CNLT</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet">
+  <link rel="shortcut icon" href="{{url_for('static',filename='image/fav.ico')}}">
+  <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{url_for('static',filename='js/jquery-3.5.1.min.js')}}"></script>
+  <script>
+    $.ajax({
+      url:'/count',
+      type:'get',
+      success:function (countNum){
+        document.getElementById("countdiv").innerHTML="当前用户数<span class='badge rounded-pill bg-success'>"+countNum+"</span>"
+      }
+    }
+    )
+  </script>
+</head>
+<body>
+  <div class="container p-4 my-4 border">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="col-4 offset-4 bg-primary rounded"><h1 class="text-white text-center">CNLT</h1>
+        </div>
+        <div class="text-end">
+          <small><span class="badge bg-danger">beta</span></small>
+        </div>
+        <div>
+          <h4 class="text-center text-secondary">Campus Network Login Tool</h4>
+        </div>
+        <div>
+          <p class="text-center text-secondary">一款自动化登录校园网的web应用</p>
+        </div>
+        <div id="countdiv" class="col-4 offset-4 text-center bg-secondary text-white rounded">null</div>
+      </div>
+    </div>
+    <hr/>
+    <div class="row col-md-6 offset-md-3">
+      <h4>①针对情况</h4>
+      <img class="col-md-6 offset-md-3" src="{{url_for('static',filename='image/index1.png')}}">
+      <p class="text-muted">
+        身为安大学子，您是否也遇到过这种情况：打游戏/刷视频的途中，突然校园网自动断开，需要进入网页输入账号密码登录？
+      </p>
+    </div>
+    <div class="row col-md-6 offset-md-3">
+      <h4>②提出需求</h4>
+      <img class="col-md-6 offset-md-3" src="{{url_for('static',filename='image/index2.png')}}">
+      <p class="text-muted">
+        您是否渴望有这样一个工具：解放您的双手，以后的校园网登录无需您主动操作？
+      </p>
+    </div>
+    <div class="row col-md-6 offset-md-3">
+      <h4>③给出方案</h4>
+      <img class="col-md-6 offset-md-3" src="{{url_for('static',filename='image/index3.png')}}">
+      <p class="text-muted">
+        本网站就是这样一个解放双手的工具，它可以<maek>自动化</maek>部署你的校园网登录，从此您的校园网登录将再也无需您本人操作。欲使用本web应用，只需要轻松的几个步骤就可以部署：
+      </p>
+      <button type="button" class="btn btn-primary btn-lg col-6 offset-3" onclick="window.location.href='/instruction'">点此开始</button>
+    </div>
+    <hr/>
+    <div class="row col-md-6 offset-md-3">
+      <p class="text-muted text-center">已使用本web应用?欲停止脚本，请点击以下按钮</p>
+      <button type="button" class="btn btn-primary btn-lg col-6 offset-3" onclick="window.location.href='/pause'">点此注销</button>
+    </div>
+    <hr>
+    <div>
+      <h6 class="text-center text-secondary"><small>Only For AHU</small></h6>
+      <h6 class="text-center text-secondary">Copyright © 2021-2022 <font color="blue">Epoch</font>. All rights reserved.</h6>
+    </div>
+  </div>
+</body>
+</html>
